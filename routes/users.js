@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/user");
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
+// create a new user
+router.post("/user", controller.createUser);
+// login user using email and password
+router.post("/user/login", controller.loginUser);
+// change user password, you have to pass oldPassword and new password and a jwt in header for Auth
 
 module.exports = router;
