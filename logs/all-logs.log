@@ -58,3 +58,52 @@
   __v: 0
 }
 2024-02-21 21:47:21:4721 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 00:16:11:1611 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 00:19:47:1947 info: Validating create grievance data
+2024-02-22 00:20:15:2015 info: Validating create grievance data
+2024-02-22 00:20:22:2022 info: Validating create grievance data
+2024-02-22 00:21:14:2114 info: Validating create grievance data
+2024-02-22 00:21:14:2114 info: Error in creating grievance: response is not defined
+2024-02-22 00:22:56:2256 info: Error in creating grievance: response is not defined
+2024-02-22 00:24:15:2415 info: Validating create grievance data
+2024-02-22 00:24:15:2415 info: Error in creating grievance: response is not defined
+2024-02-22 00:24:37:2437 info: Validating create grievance data
+2024-02-22 00:24:54:2454 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 00:25:28:2528 info: Validating create grievance data
+2024-02-22 00:25:34:2534 info: Validating create grievance data
+2024-02-22 00:26:04:264 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 00:26:28:2628 info: Validating create grievance data
+2024-02-22 00:26:43:2643 info: Validating create grievance data
+2024-02-22 00:26:52:2652 info: Validating create grievance data
+2024-02-22 00:28:02:282 info: Validating create grievance data
+2024-02-22 00:28:48:2848 info: Validating create grievance data
+2024-02-22 00:30:13:3013 info: Validating create grievance data
+2024-02-22 00:30:46:3046 info: Validating create grievance data
+2024-02-22 00:31:14:3114 info: Validating create grievance data
+2024-02-22 00:31:14:3114 info: In create grievance controller
+2024-02-22 00:31:14:3114 info: Error in creating grievance: query.createGrievance is not a function
+2024-02-22 00:32:40:3240 info: Validating create grievance data
+2024-02-22 00:32:40:3240 info: In create grievance controller
+2024-02-22 00:32:41:3241 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d621c004050537350b59ff'),
+  status: 'open',
+  details: 'for testing issue',
+  _id: new ObjectId('65d648d03301d16d30a4a057'),
+  timestamp: 2024-02-21T19:02:40.957Z,
+  __v: 0
+}
+2024-02-22 00:38:16:3816 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 00:38:38:3838 info: Validating create grievance data
+2024-02-22 00:46:09:469 info: Error in updating user: userUpdated is not defined
+2024-02-22 00:47:01:471 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 00:47:16:4716 info: Validating update grievance req body
+2024-02-22 00:48:06:486 info: Validating update grievance req body
+2024-02-22 00:48:50:4850 info: Validating update grievance req body
+2024-02-22 00:49:47:4947 info: Validating update grievance req body
+2024-02-22 00:51:18:5118 info: Validating update grievance req body
+2024-02-22 00:51:29:5129 info: Validating update grievance req body
+2024-02-22 00:51:34:5134 info: Validating update grievance req body
+2024-02-22 00:51:34:5134 info: Error in updating user: userUpdated is not defined
+2024-02-22 00:52:11:5211 info: Validating update grievance req body
+2024-02-22 00:52:11:5211 info: Error in updating user: grievanceUpdatedValue is not defined
+2024-02-22 00:52:25:5225 info: Validating update grievance req body
