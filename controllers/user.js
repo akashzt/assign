@@ -5,8 +5,7 @@ const constants = require("../util/constants");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
-const config = require("config");
+require('dotenv').config();
 
 
 const userProfileFields = ["_id", "email","role"];
@@ -19,14 +18,13 @@ const createUser = async function (req, res, next) {
     if (body.email && !!(await query.getUserByEmail(body.email))) {
       return await resp.sendResponse(constants.response_code.DUPLICATE, "EmailId already exist!", null, res);
     }
-    // encrypt user password and generate a userId
-    body.password = await utils.genPasswordHash(body.password);
+    // encrypt user password and generate a user
+    body.password = await genPasswordHash(body.password);
     let user = await query.createUser(body);
     logger.info(`Query: responded with new user created: ${user}`);
     const token = await genNewToken({
       email: user.email,
       id: user._id,
-      name: user.name,
       role: user.role
     });
     res.set("Authorization", token);
@@ -70,15 +68,23 @@ const loginUser = async function (req, res) {
 
 const genNewToken = async function (payload, res) {
   try {
-    const jwtOpts = config.get("jwt");
-    return jwt.sign(payload, jwtOpts.secret, {
-      expiresIn: jwtOpts.expires // expires in given time
+    return jwt.sign(payload, process.env.secret, {
+      expiresIn: "1h" // expires in given time
     });
   } catch (err) {
     logger.info(`Error in generating token: ${err.message}`);
     return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, null, null, res, err);
   }
 };
+
+const genPasswordHash=async function(password, saltRounds = constants.Numbers.ten) {
+  try {
+  return await bcrypt.hash(password, saltRounds);
+} catch (err) {
+  logger.info(`Error in generating token: ${err.message}`);
+  return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, null, null, res, err);
+}
+}
 
 module.exports = {
   createUser,

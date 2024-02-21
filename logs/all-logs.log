@@ -1,0 +1,60 @@
+2024-02-21 21:37:51:3751 info: In create User controller
+2024-02-21 21:37:52:3752 info: Error in creating user: utils is not defined
+2024-02-21 21:40:32:4032 info: In create User controller
+2024-02-21 21:40:33:4033 info: Query: responded with new user created: {
+  email: 'akash@ziggletech.com',
+  password: '$2b$10$vb25traJput8uXA3clucneXK1TM7EQsJ1PHzGmIqDAYfBDjRcCfvu',
+  role: 'employee',
+  _id: new ObjectId('65d62079cb7eb6caa5d1bb20'),
+  createdAt: 2024-02-21T16:10:33.125Z,
+  updatedAt: 2024-02-21T16:10:33.127Z,
+  __v: 0
+}
+2024-02-21 21:40:33:4033 info: Error in generating token: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+2024-02-21 21:40:33:4033 info: Error in creating user: Cannot read properties of undefined (reading 'json')
+2024-02-21 21:42:37:4237 info: In create User controller
+2024-02-21 21:42:37:4237 info: Query: responded with new user created: {
+  email: 'akash1@ziggletech.com',
+  password: '$2b$10$B6awtEDXX2LEmw/VOKkUPOuzpU2VlUEyLbndsFhRCGXWcB/xGVh4W',
+  role: 'employee',
+  _id: new ObjectId('65d620f54ca91d2e71ef796e'),
+  createdAt: 2024-02-21T16:12:37.736Z,
+  updatedAt: 2024-02-21T16:12:37.737Z,
+  __v: 0
+}
+2024-02-21 21:42:37:4237 info: Error in generating token: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+2024-02-21 21:42:37:4237 info: Error in creating user: Cannot read properties of undefined (reading 'json')
+2024-02-21 21:44:23:4423 info: In create User controller
+2024-02-21 21:44:23:4423 info: Query: responded with new user created: {
+  email: 'akash2@ziggletech.com',
+  password: '$2b$10$BsnC2kvBsKn.JGUF/MWDXuEG.jMO.N0zjxvubU1hrHm.fEpmq2lvS',
+  role: 'employee',
+  _id: new ObjectId('65d6215f4ca91d2e71ef7971'),
+  createdAt: 2024-02-21T16:14:23.911Z,
+  updatedAt: 2024-02-21T16:14:23.911Z,
+  __v: 0
+}
+2024-02-21 21:44:23:4423 info: Error in generating token: "expiresIn" should be a number of seconds or string representing a timespan eg: "1d", "20h", 60
+2024-02-21 21:44:23:4423 info: Error in creating user: Cannot read properties of undefined (reading 'json')
+2024-02-21 21:46:00:460 info: In create User controller
+2024-02-21 21:46:00:460 info: Query: responded with new user created: {
+  email: 'akash3@ziggletech.com',
+  password: '$2b$10$y8eooP55jKAzywbR0QM1B..YbT4ICA.UucTWUMl/j0MYPEpbzv5Me',
+  role: 'employee',
+  _id: new ObjectId('65d621c004050537350b59ff'),
+  createdAt: 2024-02-21T16:16:00.647Z,
+  updatedAt: 2024-02-21T16:16:00.647Z,
+  __v: 0
+}
+2024-02-21 21:46:15:4615 info: In create User controller
+2024-02-21 21:46:34:4634 info: In create User controller
+2024-02-21 21:46:34:4634 info: Query: responded with new user created: {
+  email: 'akash4@ziggletech.com',
+  password: '$2b$10$y6pLzbR3okrKRCYlHJWOrOOfOue/N5axGj3mVCyHkTzkjKtK8iIEa',
+  role: 'hr',
+  _id: new ObjectId('65d621e204050537350b5a03'),
+  createdAt: 2024-02-21T16:16:34.224Z,
+  updatedAt: 2024-02-21T16:16:34.224Z,
+  __v: 0
+}
+2024-02-21 21:47:21:4721 info: User Login Initiated for akash4@ziggletech.com
