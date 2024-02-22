@@ -228,3 +228,22 @@
   timestamp: 2024-02-22T07:42:54.049Z,
   __v: 0
 }
+2024-02-22 13:29:51:2951 info: Validating create grievance data
+2024-02-22 13:29:51:2951 info: In create grievance controller
+2024-02-22 13:29:51:2951 info: Error in creating grievance: Error occurred while sending email: users is not defined
+2024-02-22 13:31:09:319 info: Validating create grievance data
+2024-02-22 13:31:09:319 info: In create grievance controller
+2024-02-22 13:31:09:319 info: Error in creating grievance: Error occurred while sending email: users is not defined
+2024-02-22 13:32:51:3251 info: Validating create grievance data
+2024-02-22 13:32:51:3251 info: In create grievance controller
+2024-02-22 13:32:51:3251 info: Error in creating grievance: Error occurred while sending email: users is not defined
+2024-02-22 13:33:19:3319 info: Validating create grievance data
+2024-02-22 13:33:19:3319 info: In create grievance controller
+2024-02-22 13:33:22:3322 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d6f6d87c804c348a107e58'),
+  status: 'open',
+  details: 'for testing issue email 8',
+  _id: new ObjectId('65d6ffc753d9cb406be34449'),
+  timestamp: 2024-02-22T08:03:19.264Z,
+  __v: 0
+}

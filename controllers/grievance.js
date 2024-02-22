@@ -108,6 +108,7 @@ const chatView = async function (req, res, next) {
   }
 };
 sendEmail = async function () {
+  console.log("hiii")
   try {
       const transporter = nodemailer.createTransport({
           host: process.env.emailHost,
@@ -119,6 +120,7 @@ sendEmail = async function () {
       });
       //send email to all HR
       const allHr=await userQuery.findHR();
+      console.log(allHr)
       // Setup email data
       const mailOptions = {
           from: process.env.emailFrom,
