@@ -1,7 +1,7 @@
 # CRUD API Assignment Completion
 
 ## Description
-I have successfully completed the CRUD API assignment as per the requirements provided. The API is implemented using Node.js with Express framework and supports operations for creating, reading, updating, and deleting user records.
+I have successfully  Develop a backend for a Grievance System with integrated chat functionality using NodeJS, ExpressJS, and MongoDB. The system will allow employees to raise grievances and HR to respond and resolve these issues within 24 hours. It should include authentication and role-based access control.  
 ## Implementation Details
 - **Language:** JavaScript
 - **Framework:** Express.js
