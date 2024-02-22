@@ -38,6 +38,17 @@ expires=1h,
 
 secret=nypr355uiopy
 
+nodemailEmail=darwin54@ethereal.email
+
+nodemailpassword=ab2tKXXP9aZ9yyHa9M
+
+emailFrom=noreply@grievance.com
+
+emailHost=smtp.ethereal.email
+
+emailPort=587
+
+
 
 ## Author
 Akash Kumar
