@@ -153,3 +153,7 @@
 }
 2024-02-22 10:07:23:723 info: User Login Initiated for akash3@ziggletech.com
 2024-02-22 10:26:45:2645 info: Error in chat view: query.findGrievance is not a function
+2024-02-22 11:22:02:222 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 11:22:20:2220 info: Error in chat view: io.to is not a function
+2024-02-22 11:25:44:2544 info: Error in chat view: io.to is not a function
+2024-02-22 11:33:07:337 info: Error in chat created: io.to is not a function

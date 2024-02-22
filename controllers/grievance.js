@@ -4,7 +4,7 @@ const query = require("../lib/queries/grievance");
 const chatQuery=require('../lib/queries/chat');
 const constants = require("../util/constants");
 const _ = require("lodash");
-
+const io =require('../util/socketServer');
 
 const grievanceFields = ["_id", "userId","status","details","timestamp"];
 
@@ -73,12 +73,14 @@ const chatCreate = async function (req, res, next) {
       // Only HR and the user who created the grievance can view the chat
       if (grievance.userId == user.id || user.role.toUpperCase() === 'HR') {
         let chat = await chatQuery.createChat(body);
+        //const chatM=io.to(grievanceId).emit('chat message', body.message);
+        //console.log(chatM)
         return resp.sendResponse(constants.response_code.SUCCESS,`Chats created for Grivence Id ${grievanceId}`, chat, res);
       } else {
           return resp.sendResponse(constants.response_code.UNAUTHORIZED, null, null, res);
       }
   } catch (err) {
-      logger.info(`Error in chat view: ${err.message}`);
+      logger.info(`Error in chat created: ${err.message}`);
       return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, err.message, null, res, err);
   }
 
