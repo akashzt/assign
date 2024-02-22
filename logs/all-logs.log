@@ -157,3 +157,10 @@
 2024-02-22 11:22:20:2220 info: Error in chat view: io.to is not a function
 2024-02-22 11:25:44:2544 info: Error in chat view: io.to is not a function
 2024-02-22 11:33:07:337 info: Error in chat created: io.to is not a function
+2024-02-22 11:45:57:4557 info: Error in fetching grievance: grievanceTimestamp is not defined
+2024-02-22 11:50:04:504 info: Error in fetching grievance: grievances is not defined
+2024-02-22 11:56:29:5629 info: Error in fetching grievance: grievances is not defined
+2024-02-22 12:19:02:192 info: Error in fetching grievance: newGrievance is not defined
+2024-02-22 12:24:11:2411 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 12:26:53:2653 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 12:27:16:2716 info: Error in fetching grievance: grievances is not defined
