@@ -1,6 +1,7 @@
 const logger = require("../lib/logger");
 const resp = require("../lib/response");
 const query = require("../lib/queries/grievance");
+const chatQuery=require('../lib/queries/chat');
 const constants = require("../util/constants");
 const _ = require("lodash");
 
@@ -17,6 +18,8 @@ const createGrievance = async function (req, res, next) {
     body.userId=user.id;
     console.log(body)
     let grievance = await query.createGrievance(body);
+    //const emailSend=await query.sendEmail();
+    //console.log(emailSend)
     logger.info(`Query: responded with new grievance created: ${grievance}`);
     res.body = _.pick(grievance, grievanceFields);
     return resp.sendResponse(constants.response_code.SUCCESS, "New Grievance created", _.pick(grievance, grievanceFields), res);
@@ -58,9 +61,53 @@ const updateGrievance = async function (req, res, next) {
 };
 
 
+const chatCreate = async function (req, res, next) {
+  const user = req.user;
+  const { grievanceId } = req.params;
+  let body=req.body;
+  body.grievanceId=grievanceId;
+  body.senderId=user.id;
+  
+  try {
+      let grievance = await query.findGrievance(grievanceId);
+      // Only HR and the user who created the grievance can view the chat
+      if (grievance.userId == user.id || user.role.toUpperCase() === 'HR') {
+        let chat = await chatQuery.createChat(body);
+        return resp.sendResponse(constants.response_code.SUCCESS,`Chats created for Grivence Id ${grievanceId}`, chat, res);
+      } else {
+          return resp.sendResponse(constants.response_code.UNAUTHORIZED, null, null, res);
+      }
+  } catch (err) {
+      logger.info(`Error in chat view: ${err.message}`);
+      return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, err.message, null, res, err);
+  }
+
+};
+
+const chatView = async function (req, res, next) {
+  const user = req.user;
+  const { grievanceId } = req.params;
+  
+  try {
+      let grievance = await query.findGrievance(grievanceId);
+      // Only HR and the user who created the grievance can view the chat
+      if (grievance.userId == user.id || user.role.toUpperCase() === 'HR') {
+          let allChat = await chatQuery.getAllChat(grievanceId);
+          return resp.sendResponse(constants.response_code.SUCCESS, `All Chats for Grievance Id ${grievanceId}`, allChat, res);
+      } else {
+          return resp.sendResponse(constants.response_code.UNAUTHORIZED, null, null, res);
+      }
+  } catch (err) {
+      logger.info(`Error in chat view: ${err.message}`);
+      return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, err.message, null, res, err);
+  }
+};
+
 
 module.exports = {
     createGrievance,
     getGrievance,
-    updateGrievance
+    updateGrievance,
+    chatCreate,
+    chatView
 };

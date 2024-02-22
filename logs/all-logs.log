@@ -107,3 +107,49 @@
 2024-02-22 00:52:11:5211 info: Validating update grievance req body
 2024-02-22 00:52:11:5211 info: Error in updating user: grievanceUpdatedValue is not defined
 2024-02-22 00:52:25:5225 info: Validating update grievance req body
+2024-02-22 00:53:49:5349 info: Validating update grievance req body
+2024-02-22 08:23:08:238 info: User Login Initiated for akash4@ziggletech.com
+2024-02-22 08:24:10:2410 info: Validating create grievance data
+2024-02-22 08:24:21:2421 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 08:24:44:2444 info: Validating create grievance data
+2024-02-22 08:24:44:2444 info: In create grievance controller
+2024-02-22 08:24:44:2444 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d621c004050537350b59ff'),
+  status: 'open',
+  details: 'for testing issue email',
+  _id: new ObjectId('65d6b774adc4049563aee457'),
+  timestamp: 2024-02-22T02:54:44.367Z,
+  __v: 0
+}
+2024-02-22 08:26:02:262 info: Validating create grievance data
+2024-02-22 08:26:03:263 info: In create grievance controller
+2024-02-22 08:26:03:263 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d621c004050537350b59ff'),
+  status: 'open',
+  details: 'for testing issue email 2',
+  _id: new ObjectId('65d6b7c375b59b900f590a6b'),
+  timestamp: 2024-02-22T02:56:03.022Z,
+  __v: 0
+}
+2024-02-22 08:26:30:2630 info: Validating create grievance data
+2024-02-22 08:26:30:2630 info: In create grievance controller
+2024-02-22 08:26:30:2630 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d621c004050537350b59ff'),
+  status: 'open',
+  details: 'for testing issue email 3',
+  _id: new ObjectId('65d6b7debbd04ae5ae85a5ff'),
+  timestamp: 2024-02-22T02:56:30.904Z,
+  __v: 0
+}
+2024-02-22 08:27:21:2721 info: Validating create grievance data
+2024-02-22 08:27:21:2721 info: In create grievance controller
+2024-02-22 08:27:21:2721 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65d621c004050537350b59ff'),
+  status: 'open',
+  details: 'for testing issue email 3',
+  _id: new ObjectId('65d6b81159b50f10714c3f4d'),
+  timestamp: 2024-02-22T02:57:21.912Z,
+  __v: 0
+}
+2024-02-22 10:07:23:723 info: User Login Initiated for akash3@ziggletech.com
+2024-02-22 10:26:45:2645 info: Error in chat view: query.findGrievance is not a function

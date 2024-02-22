@@ -22,6 +22,12 @@ router.post('/grievance',auth,grievanceJoi.createGrievance,grivController.create
 router.get('/grievance/all',auth,grivController.getGrievance);
 
 //update status of the grievance
-router.put('/grievance',auth,hrAuth,grievanceJoi.updateGrievance,grivController.updateGrievance)
+router.put('/grievance',auth,hrAuth,grievanceJoi.updateGrievance,grivController.updateGrievance);
+
+//chat routes
+
+router.post('/chat/:grievanceId',auth,grivController.chatCreate);
+
+router.get('/chat/:grievanceId',auth,grivController.chatView);
 
 module.exports = router;
