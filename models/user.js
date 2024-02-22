@@ -9,6 +9,7 @@ const userSchema =mongoose.Schema({
     },
     role:{
         type:String,
+        enum: ['employee', 'hr'],
         default:"employee"
     },
       createdAt: {
