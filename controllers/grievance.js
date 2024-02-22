@@ -1,10 +1,13 @@
 const logger = require("../lib/logger");
 const resp = require("../lib/response");
+const userQuery=require('../lib/queries/user')
 const query = require("../lib/queries/grievance");
 const chatQuery=require('../lib/queries/chat');
 const constants = require("../util/constants");
 const _ = require("lodash");
 const io =require('../util/socketServer');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const grievanceFields = ["_id", "userId","status","details","timestamp"];
 
@@ -18,11 +21,11 @@ const createGrievance = async function (req, res, next) {
     body.userId=user.id;
     console.log(body)
     let grievance = await query.createGrievance(body);
-    //const emailSend=await query.sendEmail();
-    //console.log(emailSend)
+    const emailSend=await sendEmail();
+    console.log(emailSend)
     logger.info(`Query: responded with new grievance created: ${grievance}`);
     res.body = _.pick(grievance, grievanceFields);
-    return resp.sendResponse(constants.response_code.SUCCESS, "New Grievance created", _.pick(grievance, grievanceFields), res);
+    return resp.sendResponse(constants.response_code.SUCCESS, "New Grievance created and Email send to All HR", _.pick(grievance, grievanceFields), res);
     }else{
       return resp.sendResponse(constants.response_code.UNAUTHORIZED, null, null, res);
     }
@@ -104,6 +107,37 @@ const chatView = async function (req, res, next) {
       return resp.sendResponse(constants.response_code.INTERNAL_SERVER_ERROR, err.message, null, res, err);
   }
 };
+sendEmail = async function () {
+  try {
+      const transporter = nodemailer.createTransport({
+          host: process.env.emailHost,
+          port: process.env.emailPort,
+          auth: {
+              user: process.env.nodemailEmail,
+              pass: process.env.nodemailPassword
+          }
+      });
+      //send email to all HR
+      const allHr=await userQuery.findHR();
+      // Setup email data
+      const mailOptions = {
+          from: process.env.emailFrom,
+          to: allHr,
+          subject: 'Notification for create a new Grievance',
+          text: 'New Grievance is created please resolve with In 24 hours.',
+          html: '<b>New Grievance is created please resolve with In 24 hours. </b>'
+      };
+
+      // Send email
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+      return info.response;
+  } catch (error) {
+      console.error(`Error occurred while sending email: ${error.message}`);
+      throw new Error(`Error occurred while sending email: ${error.message}`);
+  }
+}
+
 
 
 module.exports = {

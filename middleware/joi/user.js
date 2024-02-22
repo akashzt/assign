@@ -10,9 +10,9 @@ const createUserSchema = Joi.object({
 });
 
 // validation schema for login user
-const loginUserSchema = joi.object({
-    email: joi.string().trim().required().email(),
-    password: joi.string().trim().required(),
+const loginUserSchema = Joi.object({
+    email: Joi.string().trim().required().email(),
+    password: Joi.string().trim().required(),
   });
 
 

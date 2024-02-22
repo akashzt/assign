@@ -5,12 +5,13 @@ const grivController=require( "../controllers/grievance");
 const auth=require('../middleware/authorization');
 const hrAuth=require('../middleware/hrAuth');
 const grievanceJoi=require('../middleware/joi/grievance');
+const userJoi=require('../middleware/joi/user')
 
 
 // create a new user
-router.post("/user", controller.createUser);
+router.post("/user",userJoi.createUser, controller.createUser);
 // login user using email and password
-router.post("/user/login", controller.loginUser);
+router.post("/user/login",userJoi.loginUser, controller.loginUser);
 
 
 //grievance  related routes
