@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Glassmorphism login Form Tutorial in html css</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="loginForm">
+        <h3>Login Here</h3>
+
+        <label for="username">Email</label>
+        <input type="text" placeholder="Email" id="email">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password">
+
+        <button type="submit">Log In</button>
+        <div id="loginError" class="error-message"></div>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Make a POST request to the login API endpoint
+            fetch('/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    const token = response.headers.get('Authorization');
+                     localStorage.setItem('token', token);
+                    return response.json();
+                  
+                } else {
+                    throw new Error('Login failed');
+                }
+            })
+            .then(data => {
+                if(data.status.code==200){
+                    localStorage.setItem('user', JSON.stringify(data.data));
+                    window.location.href = '/profile';
+                }
+                else{
+                    throw new Error(data.error.message);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loginError').textContent = error.message;
+            });
+        });
+    </script>
+</body>
+</html>

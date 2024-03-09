@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grievance System</title>
+    <link rel="stylesheet" href="/stylesheets/home.css" />
+    <style>
+      .loader {
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+        margin-top: 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>Grievance System</h1>
+        <button id="newGrievanceBtn">Create New Grievance</button>
+        <div class="user-info">
+          <span>Welcome, <span id="username"></span>!</span>
+          <a href="#" id="logout">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="user-list">
+      <h2>List of grievance</h2>
+      <div id="loader" class="loader"></div>
+      <ul id="grievanceList"></ul>
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form id="editForm">
+            <input type="hidden" id="grievanceIdField" name="grievanceId" />
+            <div class="form-group">
+              <label for="status">Status:</label>
+              <select id="status" name="status">
+                <option value="open">Open</option>
+                <option value="in-progress">In Progress</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Show loader while fetching data
+      document.getElementById("loader").classList.remove("hide");
+      const userString = localStorage.getItem("user");
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(userString);
+
+      if (!token) {
+        // Redirect to login page if token doesn't exist
+        console.log(token);
+        window.location.href = "/";
+      } else {
+        if (user.email) {
+          // Trim the email
+          const trimmedEmail = user.email.split("@")[0];
+          document.getElementById("username").textContent = trimmedEmail;
+        }
+        // Fetch data from the API
+        fetch("http://localhost:3000/api/grievance/all", {
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+        })
+          .then((response) => response.json())
+          .then((grievanceData) => {
+            if (grievanceData.status.code == "200") {
+              const grievanceListElement =
+                document.getElementById("grievanceList");
+                const userRole = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).role : '';
+              if (grievanceData.data && grievanceData.data.length > 0) {
+                grievanceData.data.forEach((grievance) => {
+                  const grievanceItem = document.createElement("li");
+                  grievanceItem.classList.add("grievance");
+
+                  const grievanceDetails = `
+                    <p><strong>Status:</strong> ${grievance.status}</p>
+                    <p><strong>Details:</strong> ${grievance.details}</p>
+                    <p><strong>Time Left to Complete:</strong> ${grievance.timeLeftToComplete}</p>
+                    ${userRole !== 'employee' ? `<button class="editBtn" data-grievance-id="${grievance._id}">Edit</button>` : ''}
+                    <button class="chatBtn" data-grievance-id="${grievance._id}"><i class="fas fa-comment"></i>Chat</button> <!-- Add chat button with grievance ID -->
+                  `;
+
+                  grievanceItem.innerHTML = grievanceDetails;
+                  grievanceListElement.appendChild(grievanceItem);
+                });
+                // Add event listener for edit buttons
+                const editButtons = document.querySelectorAll(".editBtn");
+                editButtons.forEach((button) => {
+                  button.addEventListener("click", () => {
+                    const grievanceId =
+                      button.getAttribute("data-grievance-id");
+                    const modal = document.getElementById("editModal");
+                    const statusDropdown = modal.querySelector("#status");
+                    const selectedStatus = grievanceData.data.find(
+                      (grievance) => grievance._id === grievanceId
+                    ).status;
+                    statusDropdown.value = selectedStatus;
+                    document.getElementById("editModal").style.display =
+                      "block";
+                    // Handle edit action with grievanceId
+                    document.getElementById("grievanceIdField").value =
+                      grievanceId;
+                  });
+                });
+
+                // Add event listener for chat buttons
+                const chatButtons = document.querySelectorAll(".chatBtn");
+                chatButtons.forEach((button) => {
+                  button.addEventListener("click", () => {
+                    const grievanceId =
+                      button.getAttribute("data-grievance-id");
+                    // Handle chat action with grievanceId
+                    console.log("Chat clicked for grievance ID:", grievanceId);
+                  });
+                });
+              } else {
+                const noGrievanceItem = document.createElement("li");
+                noGrievanceItem.textContent = "No grievances found.";
+                grievanceListElement.appendChild(noGrievanceItem);
+              }
+            } else {
+              localStorage.removeItem("token");
+              localStorage.removeItem("user");
+              window.location.href = "/";
+            }
+            // Hide loader after data is fetched
+            document.getElementById("loader").classList.add("hide");
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+            // Hide loader and show error message
+            document.getElementById("loader").classList.add("hide");
+            document.getElementById("users").innerHTML =
+              "<li>Error fetching data. Please try again later.</li>";
+          });
+      }
+      // Logout logic
+      document
+        .getElementById("logout")
+        .addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent default link behavior
+          logout(); // Call logout function
+        });
+
+      function logout() {
+        console.log("Logged out");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/";
+      }
+
+      // Close modal when close button or outside modal area is clicked
+      window.onclick = function (event) {
+        const modal = document.getElementById("editModal");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // Close modal when close button is clicked
+      const closeBtn = document.querySelector(".close");
+      closeBtn.addEventListener("click", () => {
+        document.getElementById("editModal").style.display = "none";
+      });
+
+      // Handle form submission
+      const editForm = document.getElementById("editForm");
+      editForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const status = formData.get("status");
+        const grievanceId = formData.get("grievanceId");
+        console.log("Status selected:", status);
+        console.log(grievanceId);
+        // Perform action with the selected status
+        // You can make a fetch request to update the status on the server, for example
+      });
+    </script>
+  </body>
+</html>

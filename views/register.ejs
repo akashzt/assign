@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registration</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="registerForm">
+        <h3>Register Here</h3>
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email" id="email">
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password">
+        <label for="userType">Role</label>
+        <select id="userType">
+            <option value="employee">Employee</option>
+            <option value="hr">HR</option>
+        </select>
+
+        <button type="submit">Register</button> 
+        <div id="registrationError" class="error-message"></div>
+        <p>already have an account? <a href="/">Sign In</a></p>
+    </form>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            const role = document.getElementById('userType').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // api call to register user
+            fetch('/api/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password ,role })
+            })
+            .then(response => {
+                console.log(response);
+                if (response.ok) {
+                    const token = response.headers.get('Authorization');
+                     localStorage.setItem('token', token);
+                    return response.json();
+                } else {
+                    throw new Error('Registration failed');
+                }
+            })
+            .then(data => {
+                if(data.status.code==200){
+                localStorage.setItem('user', JSON.stringify(data.data));
+                window.location.href = '/profile';
+                }
+                else{
+                    throw new Error(data.error.message);
+                }
+            })
+            .catch(error => {
+                document.getElementById('registrationError').textContent = error.message;
+            });
+        });
+    </script>
+</body>
+</html>

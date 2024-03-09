@@ -12,7 +12,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -21,6 +21,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', usersRouter);
+// Define a route to render your EJS template
+app.get('/', (req, res) => {
+  res.render('login', { error: null }); 
+});
+app.get('/register', (req, res) => {
+  res.render('register', { error: null }); 
+});
+app.get('/profile',(req,res)=>{
+  res.render('profile', { error: null }); 
+})
 db();
 
 // catch 404 and forward to error handler

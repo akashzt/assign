@@ -247,3 +247,5 @@
   timestamp: 2024-02-22T08:03:19.264Z,
   __v: 0
 }
+2024-03-06 11:46:06:466 info: Validating user login req body
+2024-03-06 11:46:06:466 info: User Login Initiated for akash4@ziggletech.com
