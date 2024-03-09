@@ -8,6 +8,22 @@ I have successfully  Develop a backend for a Grievance System with integrated ch
 - **Node.js Version:** 20 LTS
 - **Database:** MongoDB
 
+## Frontend Routes
+1. **Login Page**: `/login`
+   - This route provides a form for users to log in. Upon successful authentication, users are redirected to their profile.
+
+2. **Register Page**: `/dashboard`
+   - This route provides a form for users to Register.users are redirected to their profile.
+
+3. **Profile**: `/profile`
+   - This routes provide All grievance if hr is login.and if the user is employee the he can see his own grievance.
+   - if the user is employee then it has one option to chat on respective grievance.
+   - if the user is hr then it has two button edit and chat.
+   - hr can change status of grievance.
+   - any hr can chat to any grievance.
+
+4. **404 Page**: `/404`
+   - Custom page for non-existent routes.
 
 ## Scripts
 - **start:dev:** Runs the application in development mode using nodemon.
