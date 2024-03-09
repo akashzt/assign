@@ -68,9 +68,10 @@ wss.on('connection', function connection(ws) {
 db();
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// Handle 404 errors
+app.use((req, res, next) => {
+  res.status(404).render('error');
+}); 
 
 // error handler
 app.use(function(err, req, res, next) {
