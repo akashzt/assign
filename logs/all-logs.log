@@ -249,3 +249,42 @@
 }
 2024-03-06 11:46:06:466 info: Validating user login req body
 2024-03-06 11:46:06:466 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 14:47:48:4748 info: Validating user login req body
+2024-03-09 14:47:48:4748 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 15:14:46:1446 info: Validating update grievance req body
+2024-03-09 15:16:13:1613 info: Validating update grievance req body
+2024-03-09 15:17:10:1710 info: Validating update grievance req body
+2024-03-09 15:47:07:477 info: Validating update grievance req body
+2024-03-09 15:50:47:5047 info: Validating user login req body
+2024-03-09 15:50:47:5047 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 15:50:56:5056 info: Validating user login req body
+2024-03-09 15:50:56:5056 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 15:50:59:5059 info: Validating user login req body
+2024-03-09 15:50:59:5059 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 15:51:08:518 info: Validating user login req body
+2024-03-09 15:51:08:518 info: User Login Initiated for akash4@ziggletech.com
+2024-03-09 15:51:17:5117 info: Validating update grievance req body
+2024-03-09 15:52:31:5231 info: Validating update grievance req body
+2024-03-09 16:09:30:930 info: Validating create user data
+2024-03-09 16:09:30:930 info: In create User controller
+2024-03-09 16:09:31:931 info: Query: responded with new user created: {
+  email: 'ankit@ziggletech.com',
+  password: '$2b$10$orX.mnDemv0l9ZoMMkv.3.8uHE8dgioTPF3JGseeL2mVP.N/35rt2',
+  role: 'employee',
+  _id: new ObjectId('65ec3c638121433045917cf1'),
+  createdAt: 2024-03-09T10:39:31.095Z,
+  updatedAt: 2024-03-09T10:39:31.095Z,
+  __v: 0
+}
+2024-03-09 16:10:27:1027 info: Validating create grievance data
+2024-03-09 16:10:27:1027 info: In create grievance controller
+2024-03-09 16:10:30:1030 info: Query: responded with new grievance created: {
+  userId: new ObjectId('65ec3c638121433045917cf1'),
+  status: 'open',
+  details: 'this is new from frontend',
+  _id: new ObjectId('65ec3c9b8121433045917cf4'),
+  timestamp: 2024-03-09T10:40:27.861Z,
+  __v: 0
+}
+2024-03-09 16:26:09:269 info: Validating user login req body
+2024-03-09 16:26:09:269 info: User Login Initiated for ankit@ziggletech.com

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grievance Chat</title>
+  <link rel="stylesheet" href="/stylesheets/chat.css">
+</head>
+<body>
+  <!-- Chat interface -->
+  <div id="chatContainer">
+    <!-- Display previous chats -->
+    <div id="previousChats"></div>
+    
+    <!-- Chat input form -->
+    <form id="chatForm">
+      <input type="text" id="messageInput" placeholder="Type your message...">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to fetch previous chats using grievance ID
+    const userString = localStorage.getItem("user");
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(userString);
+
+      if (!token) {
+        // Redirect to login page if token doesn't exist
+        console.log(token);
+        window.location.href = "/";
+      } 
+    function fetchPreviousChats(grievanceId) {
+      // Make an API call to fetch previous chats using grievanceId
+      // Adjust the API endpoint and request parameters as needed
+      fetch(`/api/chat/${grievanceId}`, {
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Once data is fetched, display previous chats on the chat page
+          const previousChatsDiv = document.getElementById('previousChats');
+          console.log(data)
+          data.data.forEach(chat => {
+            console.log(chat)
+            previousChatsDiv.innerHTML += `<div>${chat.senderId.email}: ${chat.message}</div>`;
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching previous chats:', error);
+        });
+    }
+
+    // Function to send a chat message
+    function sendMessage(message) {
+      // Make an API call to send the message
+      // Adjust the API endpoint and request parameters as needed
+      fetch('http://yourapi.com/send-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: message })
+      })
+      .then(response => {
+        // Handle response
+        console.log('Message sent successfully');
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
+    }
+
+    // Function to handle form submission
+    document.getElementById('chatForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value.trim();
+      if (message !== '') {
+        sendMessage(message);
+        messageInput.value = ''; // Clear input field after sending message
+      }
+    });
+
+    // Usage example:
+    const grievanceId = '65ec3c9b8121433045917cf4'; // Get grievance ID from somewhere
+    fetchPreviousChats(grievanceId);
+  </script>
+</body>
+</html>

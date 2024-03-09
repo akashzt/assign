@@ -52,8 +52,8 @@ const getGrievance = async function (req, res) {
 };
 
 const updateGrievance = async function (req, res, next) {
-  console.log(req.user)
-  const { id, status } = req.query;
+  const { id, status } = req.body;
+  console.log(id,status)
   try {
     let grievanceUpdated = await query.updateGrievance(id, status);
     return resp.sendResponse(constants.response_code.SUCCESS, "Grievance Updated", grievanceUpdated, res);
@@ -92,7 +92,7 @@ const chatCreate = async function (req, res, next) {
 const chatView = async function (req, res, next) {
   const user = req.user;
   const { grievanceId } = req.params;
-  
+  console.log(user,grievanceId)
   try {
       let grievance = await query.findGrievance(grievanceId);
       // Only HR and the user who created the grievance can view the chat

@@ -30,7 +30,7 @@ const createGrievance = function (req, res, next) {
 // Method to validate update grievance req body
 const updateGrievance = function (req, res, next) {
   logger.info("Validating update grievance req body");
-  const validate = updateGrievanceSchema.validate(req.query);
+  const validate = updateGrievanceSchema.validate(req.body);
   if (validate.error) {
     return resp.sendResponse(constants.response_code.BAD_REQUEST, validate.error.message, {}, res, validate.error);
   }

@@ -31,6 +31,9 @@ app.get('/register', (req, res) => {
 app.get('/profile',(req,res)=>{
   res.render('profile', { error: null }); 
 })
+app.get('/chat',(req,res)=>{
+  res.render('chat', { error: null }); 
+})
 db();
 
 // catch 404 and forward to error handler
