@@ -70,7 +70,6 @@ const chatCreate = async function (req, res, next) {
   let body=req.body;
   body.grievanceId=grievanceId;
   body.senderId=user.id;
-  
   try {
       let grievance = await query.findGrievance(grievanceId);
       // Only HR and the user who created the grievance can view the chat
@@ -108,7 +107,6 @@ const chatView = async function (req, res, next) {
   }
 };
 sendEmail = async function () {
-  console.log("hiii")
   try {
       const transporter = nodemailer.createTransport({
           host: process.env.emailHost,

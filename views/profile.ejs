@@ -145,21 +145,41 @@
                   const grievanceItem = document.createElement("li");
                   grievanceItem.classList.add("grievance");
 
-                  const grievanceDetails = `
-                    <p><strong>Status:</strong> ${grievance.status}</p>
-                    <p><strong>Details:</strong> ${grievance.details}</p>
-                    <p><strong>Time Left to Complete:</strong> ${
-                      grievance.timeLeftToComplete
-                    }</p>
-                    ${
-                      userRole !== "employee"
-                        ? `<button class="editBtn" data-grievance-id="${grievance._id}">Edit</button>`
-                        : ""
-                    }
-                    <button class="chatBtn" data-grievance-id="${
-                      grievance._id
-                    }"><i class="fas fa-comment"></i>Chat</button> <!-- Add chat button with grievance ID -->
-                  `;
+                  let grievanceDetails = `
+          <p><strong>Status:</strong> ${grievance.status}</p>
+          <p><strong>Details:</strong> ${grievance.details}</p>
+        `;
+
+                  // Check if timeLeftToComplete is available
+                  if (grievance.timeLeftToComplete != "NO") {
+                    grievanceDetails += `
+        <p><strong>Time Left to Complete:</strong> ${
+          grievance.timeLeftToComplete
+        }</p>
+        ${
+          userRole !== "employee"
+            ? `<button class="editBtn" data-grievance-id="${grievance._id}">Edit</button>`
+            : ""
+        }
+        <button class="chatBtn" data-grievance-id="${
+          grievance._id
+        }"><i class="fas fa-comment"></i>Chat</button> <!-- Add chat button with grievance ID -->
+    `;
+                  } else {
+                    // Add red color and disable chat and edit buttons
+                    grievanceItem.classList.add("expired");
+                    grievanceDetails += `
+        <p class="expired"><strong>Time Left to Complete:</strong> Expired</p>
+        ${
+          userRole !== "employee"
+            ? `<button class="editBtn disabled" data-grievance-id="${grievance._id}" disabled>Edit</button>`
+            : ""
+        }
+        <button class="chatBtn disabled" data-grievance-id="${
+          grievance._id
+        }" disabled><i class="fas fa-comment"></i>Chat</button> <!-- Add chat button with grievance ID -->
+    `;
+                  }
 
                   grievanceItem.innerHTML = grievanceDetails;
                   grievanceListElement.appendChild(grievanceItem);
@@ -190,6 +210,7 @@
                   button.addEventListener("click", () => {
                     const grievanceId =
                       button.getAttribute("data-grievance-id");
+                      window.location.href = `/chats/${grievanceId}`;
                     // Handle chat action with grievanceId
                     console.log("Chat clicked for grievance ID:", grievanceId);
                   });
@@ -316,7 +337,7 @@
               "Content-Type": "application/json",
               Authorization: token,
             },
-            body: JSON.stringify({details}),
+            body: JSON.stringify({ details }),
           })
             .then((response) => {
               console.log(response);
@@ -328,7 +349,8 @@
             })
             .then((data) => {
               if (data.status.code == 200) {
-                document.getElementById("newGrievanceModal").style.display = "none";
+                document.getElementById("newGrievanceModal").style.display =
+                  "none";
                 showSuccessMessage("Grievance Created successfully!");
               } else {
                 throw new Error(data.error.message);

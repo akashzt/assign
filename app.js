@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const WebSocket = require('ws');
+const http = require('http');
 var usersRouter = require('./routes/user');
 //import database
 const db=require("./util/db");
@@ -31,9 +32,39 @@ app.get('/register', (req, res) => {
 app.get('/profile',(req,res)=>{
   res.render('profile', { error: null }); 
 })
-app.get('/chat',(req,res)=>{
+app.get('/chats/:grievanceId',(req,res)=>{
   res.render('chat', { error: null }); 
 })
+const wss = new WebSocket.Server({  port: 8080 });
+// Object to store connected clients mapped by grievanceId
+const clients = {};
+
+wss.on('connection', function connection(ws) {
+  console.log('Client connected');
+
+  // Handle incoming messages
+  ws.on('message', function incoming(message) {
+    try {
+      const messageObj = JSON.parse(message);
+      const grievanceId = messageObj.grievanceId;
+
+      // Store client connection based on grievanceId
+      if (!clients[grievanceId]) {
+        clients[grievanceId] = [];
+      }
+      clients[grievanceId].push(ws);
+
+      // Broadcast message to all clients connected to this grievanceId
+      clients[grievanceId].forEach(client => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(messageObj));
+        }
+      });
+    } catch (error) {
+      console.error('Error handling message:', error);
+    }
+  });
+});
 db();
 
 // catch 404 and forward to error handler

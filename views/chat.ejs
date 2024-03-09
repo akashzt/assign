@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grievance Chat</title>
-  <link rel="stylesheet" href="/stylesheets/chat.css">
-</head>
-<body>
-  <!-- Chat interface -->
-  <div id="chatContainer">
-    <!-- Display previous chats -->
-    <div id="previousChats"></div>
-    
-    <!-- Chat input form -->
-    <form id="chatForm">
-      <input type="text" id="messageInput" placeholder="Type your message...">
-      <button type="submit">Send</button>
-    </form>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grievance Chat</title>
+    <link rel="stylesheet" href="/stylesheets/chat.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>Grievance System</h1>
+        <button id="newGrievanceBtn">Create New Grievance</button>
+        <div class="user-info">
+          <span>Welcome, <span id="username"></span>!</span>
+          <a href="#" id="logout">Logout</a>
+        </div>
+      </div>
+    </header>
+    <div id="chatContainer">
+      <!-- Display previous chats -->
+      <h2>Chat</h2>
+      <div id="previousChats"></div>
 
-  <script>
-    // Function to fetch previous chats using grievance ID
-    const userString = localStorage.getItem("user");
+      <!-- Chat input form -->
+      <form id="chatForm">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Type your message..."
+        />
+        <button type="submit">Send</button>
+      </form>
+      <button id="viewAllMessagesBtn">View All Messages</button>
+    </div>
+    <script>
+      function getPathParam(url, name) {
+        const urlParts = url.split("/");
+        const index = urlParts.indexOf(name);
+        return index !== -1 ? urlParts[index + 1] : null;
+      }
+
+      // Get the current URL
+      const currentUrl = window.location.href;
+
+      // Get the grievance ID from the URL path
+      const grievanceId = getPathParam(currentUrl, "chats");
+      console.log(grievanceId);
+      // Function to fetch previous chats using grievance ID
+      const userString = localStorage.getItem("user");
       const token = localStorage.getItem("token");
       const user = JSON.parse(userString);
 
@@ -29,65 +55,113 @@
         // Redirect to login page if token doesn't exist
         console.log(token);
         window.location.href = "/";
-      } 
-    function fetchPreviousChats(grievanceId) {
-      // Make an API call to fetch previous chats using grievanceId
-      // Adjust the API endpoint and request parameters as needed
-      fetch(`/api/chat/${grievanceId}`, {
+      } else {
+        if (user.email) {
+          // Trim the email
+          const trimmedEmail = user.email.split("@")[0];
+          document.getElementById("username").textContent = trimmedEmail;
+        }
+        // Retrieve user role from localStorage
+        const userRole = localStorage.getItem("user")
+          ? JSON.parse(localStorage.getItem("user")).role
+          : "";
+        if (userRole.toLowerCase() === "hr") {
+          // If  HR when hide the "Create Grievance" button
+          document.getElementById("newGrievanceBtn").style.display = "none";
+        }
+      }
+      // Establish WebSocket connection
+      const socket = new WebSocket("ws://localhost:8080");
+
+      // Function to handle incoming messages
+      socket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        const previousChatsDiv = document.getElementById("previousChats");
+        previousChatsDiv.innerHTML += `<div>${message.sender}: ${message.message}</div>`;
+      };
+
+      // Function to send a chat message
+      function sendMessageData(message, grievanceId) {
+        console.log("hiii");
+        const messageObj = {
+          sender: user.email, // Assuming user is defined globally
+          message: message,
+          grievanceId: grievanceId,
+        };
+        socket.send(JSON.stringify(messageObj));
+      }
+
+      // Function to handle form submission
+      document
+        .getElementById("chatForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const messageInput = document.getElementById("messageInput");
+          const message = messageInput.value.trim();
+          if (message !== "") {
+            sendMessageData(message, grievanceId);
+            messageInput.value = ""; // Clear input field after sending message
+            const previousChatsDiv = document.getElementById("previousChats");
+            previousChatsDiv.innerHTML += `<div>${user.email}: ${message}</div>`; // Append the message once after sending
+            postChats(grievanceId, message);
+          }
+        });
+
+      // Usage example:
+
+      // Function to handle "View All Messages" button click
+      document
+        .getElementById("viewAllMessagesBtn")
+        .addEventListener("click", function () {
+          fetchPreviousChats(grievanceId);
+        });
+      function fetchPreviousChats(grievanceId) {
+        // Make an API call to fetch previous chats using grievanceId
+        // Adjust the API endpoint and request parameters as needed
+        fetch(`/api/chat/${grievanceId}`, {
           method: "GET",
           headers: {
             Authorization: token,
           },
         })
-        .then(response => response.json())
-        .then(data => {
-          // Once data is fetched, display previous chats on the chat page
-          const previousChatsDiv = document.getElementById('previousChats');
-          console.log(data)
-          data.data.forEach(chat => {
-            console.log(chat)
-            previousChatsDiv.innerHTML += `<div>${chat.senderId.email}: ${chat.message}</div>`;
+          .then((response) => response.json())
+          .then((data) => {
+            // Once data is fetched, display previous chats on the chat page
+            const previousChatsDiv = document.getElementById("previousChats");
+            previousChatsDiv.innerHTML = "";
+            data.data.forEach((chat) => {
+              previousChatsDiv.innerHTML += `<div>${chat.senderId.email}: ${chat.message}</div>`;
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching previous chats:", error);
           });
-        })
-        .catch(error => {
-          console.error('Error fetching previous chats:', error);
-        });
-    }
-
-    // Function to send a chat message
-    function sendMessage(message) {
-      // Make an API call to send the message
-      // Adjust the API endpoint and request parameters as needed
-      fetch('http://yourapi.com/send-message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: message })
-      })
-      .then(response => {
-        // Handle response
-        console.log('Message sent successfully');
-      })
-      .catch(error => {
-        console.error('Error sending message:', error);
-      });
-    }
-
-    // Function to handle form submission
-    document.getElementById('chatForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const messageInput = document.getElementById('messageInput');
-      const message = messageInput.value.trim();
-      if (message !== '') {
-        sendMessage(message);
-        messageInput.value = ''; // Clear input field after sending message
       }
-    });
-
-    // Usage example:
-    const grievanceId = '65ec3c9b8121433045917cf4'; // Get grievance ID from somewhere
-    fetchPreviousChats(grievanceId);
-  </script>
-</body>
+      function postChats(grievanceId, message) {
+        console.log(message)
+        fetch(`/api/chat/${grievanceId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({ message }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status.code == 200) {
+              console.log("saved");
+            } else {
+              // localStorage.removeItem("token");
+              // localStorage.removeItem("user");
+              // window.location.href = "/";
+              throw new Error(data.error.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error storing previous chats:", error);
+          });
+      }
+    </script>
+  </body>
 </html>
